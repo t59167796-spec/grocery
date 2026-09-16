@@ -1,0 +1,3 @@
+- name: Install dependencies
+  working-directory: grocery_with_chatbot/backend
+  run: npm install
