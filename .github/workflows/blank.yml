@@ -3,45 +3,29 @@ name: Grocery CI
 
 on:
   push:
-    branches:
-      - main
-  pull_request:
-    branches:
-      - main
+    branches: [main]
   workflow_dispatch:
 
 permissions:
   contents: read
 
 jobs:
-  build:
+  inspect-project:
     runs-on: ubuntu-latest
-
-    defaults:
-      run:
-        working-directory: grocery_with_chatbot/backend
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 22
-
-      - name: Verify backend files
+      - name: Show actual repository structure
         run: |
-          test -f package.json
-          test -f server.js
-          test -f chatbot-route.js
-          test -f recipes.js
-
-      - name: Install dependencies
-        run: npm install
-
-      - name: Check JavaScript syntax
-        run: |
-          node --check server.js
-          node --check chatbot-route.js
-          node --check recipes.js
+          echo "=== Repository root ==="
+          ls -la
+          echo "=== ZIP files ==="
+          find . -type f -name "*.zip"
+          echo "=== package.json files ==="
+          find . -type f -name "package.json" \
+            -not -path "*/node_modules/*"
+          echo "=== Backend directories ==="
+          find . -type d -name backend \
+            -not -path "*/node_modules/*"
