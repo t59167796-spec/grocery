@@ -1,3 +1,23 @@
-- name: Install dependencies
-  working-directory: grocery_with_chatbot/backend
-  run: npm install
+
+name: Grocery CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  inspect-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Verify project files
+        run: |
+          echo "Repository checked out successfully"
+          ls -la
+          echo "Workflow is running"
